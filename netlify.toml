@@ -1,6 +1,6 @@
 [build]
-  publish = "public"
-  command = "echo 'No build needed - serving static site'"
+  publish = "web-build"
+  command = "npm run build:web"
 
 [[redirects]]
   from = "/*"
