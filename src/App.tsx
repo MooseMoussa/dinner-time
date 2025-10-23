@@ -1,13 +1,13 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './navigation/types';
 import {WelcomeScreen} from './screens/WelcomeScreen';
 import {UserSelectionScreen} from './screens/UserSelectionScreen';
 import {HomeScreen} from './screens/HomeScreen';
 import {SuggestionRequestScreen} from './screens/SuggestionRequestScreen';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   return (

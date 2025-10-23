@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Multi-user dinner decision app with facial recognition and personalized recommendations"><title>Dinner Time - Smart Dinner Decisions</title><style>* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #root {
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-emoji {
+            font-size: 4rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }</style><script defer="defer" src="/bundle.d83bfeef3f7ccc463dec.js"></script></head><body><div id="root"><div class="loading-screen"><div class="loading-content"><div class="loading-emoji">🍽️</div><div class="loading-text">Loading Dinner Time...</div></div></div></div></body></html>

@@ -47,7 +47,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.web.js', '.web.ts', '.web.tsx', '.js', '.ts', '.tsx', '.json'],
+    extensions: ['.web.tsx', '.web.ts', '.web.js', '.tsx', '.ts', '.js', '.json'],
     alias: {
       'react-native$': 'react-native-web',
       'react-native-sqlite-storage': path.resolve(__dirname, 'src/services/web/SQLiteWeb.ts'),
@@ -57,6 +57,13 @@ module.exports = {
       '@services': path.resolve(__dirname, 'src/services'),
       '@api': path.resolve(__dirname, 'src/api'),
       '@utils': path.resolve(__dirname, 'src/utils'),
+    },
+    fallback: {
+      'fs': false,
+      'path': false,
+      'crypto': false,
+      'stream': false,
+      'buffer': false,
     },
   },
   plugins: [
