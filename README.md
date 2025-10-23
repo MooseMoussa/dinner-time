@@ -1,113 +1,176 @@
-# Dinner Time App
+# 🍽️ Dinner Time
 
-A multi-user dinner decision app with facial recognition that helps users choose what to eat based on dietary restrictions and cuisine preferences.
+**Multi-user dinner decision app with facial recognition and personalized recommendations**
 
-## Features
+![Platforms](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-blue)
+![React Native](https://img.shields.io/badge/React%20Native-0.74-61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6)
 
-- 🔐 **Multi-User Profiles**: Unlimited user profiles on a single device
-- 📱 **Facial Recognition**: Offline facial recognition for automatic login
-- 🍽️ **Smart Suggestions**: Personalized dinner recommendations
-- 🏠 **Cook at Home**: Recipe suggestions based on available ingredients and skill level
-- 🍕 **Restaurant Finder**: Location-based restaurant recommendations
-- ⚙️ **Flexible Preferences**: Multiple dietary restrictions and cuisine preferences
-- 🔄 **Temporary Changes**: Modify preferences per session with option to save
-- 🔗 **Data Sharing**: Optional sharing of location, equipment, and ingredients between users
+---
 
-## Architecture
+## 🎯 What It Does
 
-- **Frontend**: React Native with TypeScript
-- **Database**: SQLite for local storage
-- **Facial Recognition**: react-native-face-detector (offline)
-- **Location**: react-native-geolocation-service
-- **Testing**: Jest + React Native Testing Library + Detox
+Dinner Time helps you decide what to eat by providing personalized suggestions based on:
+- Your dietary restrictions (vegetarian, vegan, gluten-free, etc.)
+- Your cuisine preferences (Italian, Mexican, Thai, etc.)
+- Whether you want to cook at home or go out
+- Your location (for restaurants)
+- Your cooking skill level and available ingredients (for recipes)
 
-## Quick Start
+### Key Features
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+✨ **Multi-User Support** - Unlimited profiles on one device
+📱 **Face Recognition** - Automatic login with offline face scanning
+🍳 **Smart Suggestions** - Personalized recipe and restaurant recommendations
+🌍 **Multi-Platform** - Works on iOS, Android, and Web browsers
+🔒 **Privacy-First** - All data stored locally, works offline
+👥 **Data Sharing** - Optionally share ingredients/equipment between users
 
-2. **Initialize database**:
-   ```bash
-   npm run db:init
-   ```
+---
 
-3. **Run on iOS**:
-   ```bash
-   npm run ios
-   ```
+## 🚀 Quick Start
 
-4. **Run on Android**:
-   ```bash
-   npm run android
-   ```
+### Prerequisites
 
-## Development
+- Node.js >= 18
+- For iOS: Xcode 14+ (macOS only)
+- For Android: Android Studio + Android SDK
+- For Web: Modern browser
 
-### Scripts
+### Installation
 
-- `npm start` - Start Metro bundler
-- `npm test` - Run all tests
-- `npm run test:contract` - Run contract tests
-- `npm run test:integration` - Run integration tests
-- `npm run test:unit` - Run unit tests
-- `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript checks
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/dinner-time.git
+cd dinner-time
 
-### Project Structure
+# Install dependencies
+npm install
+
+# Initialize the database
+npm run db:init
+```
+
+### Running the App
+
+**Web (Recommended for quick start)**
+```bash
+npm run web
+# Opens browser at http://localhost:3000
+```
+
+**iOS**
+```bash
+npm run ios
+# Requires Mac with Xcode
+```
+
+**Android**
+```bash
+npm run android
+# Requires Android Studio
+```
+
+**Expo (Alternative)**
+```bash
+npm start
+# Scan QR code with Expo Go app
+```
+
+---
+
+## 🏗️ Project Structure
 
 ```
 src/
-├── models/              # Data models (UserProfile, PreferenceProfile, etc.)
-├── services/            # Business logic (FacialRecognition, Suggestions, etc.)
-├── ui/                  # React Native components and screens
-│   ├── profiles/       # Profile selection and management
-│   ├── suggestions/    # Suggestion display and interaction
-│   └── preferences/    # Preference editing
-├── storage/            # Database schema and utilities
-└── utils/              # Shared utilities
+├── api/                    # API layer (UserProfile, FacialRecognition, Suggestion)
+├── models/                 # Data models (9 models)
+├── services/              # Core services (Database, Location, etc.)
+│   └── web/              # Web-specific polyfills
+├── screens/              # UI screens
+├── navigation/           # Navigation configuration
+├── storage/              # Database schema
+└── App.tsx              # Main app entry
 
 tests/
-├── contract/           # API contract tests
-├── integration/        # End-to-end user flow tests
-└── unit/              # Component and service unit tests
+├── contract/            # API contract tests
+├── integration/         # User flow integration tests
+└── unit/               # Unit tests
+
+web/                    # Web-specific files
+├── index.html         # HTML template
+└── ...
 ```
 
-### Performance Targets
+---
 
-- ⚡ Facial recognition: <2 seconds
-- 🚀 Suggestion generation: <1 second
-- 💾 Storage per user: <100MB
-- 👥 Support: Unlimited users per device
+## 🛠️ Development
 
-## API Documentation
+### Available Scripts
 
-See [API.md](./API.md) for detailed API documentation.
+| Command | Description |
+|---------|-------------|
+| `npm run web` | Start web development server |
+| `npm run build:web` | Build for web production |
+| `npm run ios` | Run on iOS simulator |
+| `npm run android` | Run on Android emulator |
+| `npm start` | Start Expo Metro bundler |
+| `npm test` | Run all tests |
+| `npm run lint` | Run ESLint |
+| `npm run type-check` | Run TypeScript checks |
 
-## Testing
+---
 
-The app follows Test-Driven Development (TDD):
+## 🌐 Deployment
 
-1. **Contract Tests**: Validate API interfaces
-2. **Integration Tests**: Test complete user flows
-3. **Unit Tests**: Test individual components and services
+### Web (Netlify)
 
-Run the test suite:
+The app is configured for automatic deployment to Netlify.
+
+Simply push to GitHub and Netlify handles the rest:
+
 ```bash
-npm test
+git push origin 001-make-an-app
 ```
 
-## Contributing
+Your app will be live at: **https://dinnerti-me.netlify.app**
 
-1. Follow TypeScript strict mode
-2. Write tests before implementation
-3. Use ESLint and Prettier for code formatting
-4. Update documentation for new features
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions for all platforms.
 
-## Privacy & Security
+---
 
-- 🔒 Facial recognition data stored locally only
-- 🚫 No biometric data transmitted over network
-- 👤 User consent required for data sharing
-- 🗑️ Automatic cleanup of expired data
+## 🏛️ Architecture
+
+### Tech Stack
+
+- **Frontend**: React Native + React Native Web
+- **Language**: TypeScript
+- **Navigation**: React Navigation 7
+- **Database**: SQLite (mobile) / IndexedDB (web)
+- **Build**: Webpack (web), Metro (mobile)
+
+### Data Flow
+
+```
+User Input → Screens → API Layer → Services → Models → Storage
+```
+
+See [WEB_SETUP.md](./WEB_SETUP.md) for web platform details.
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with [React Native](https://reactnative.dev/)
+- Face detection powered by react-native-face-detector
+- Database by SQLite
+
+---
+
+**Made with ❤️ and 🍕**
