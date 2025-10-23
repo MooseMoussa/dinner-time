@@ -1,0 +1,452 @@
+openapi: 3.0.3
+info:
+  title: Dinner Suggestion API
+  description: Local API for generating dinner recommendations
+  version: 1.0.0
+
+paths:
+  /suggestions:
+    post:
+      summary: Generate dinner suggestions for user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuggestionRequest'
+      responses:
+        '200':
+          description: Dinner suggestions generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuggestionResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /suggestions/{requestId}:
+    get:
+      summary: Get previously generated suggestions
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Previous suggestions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuggestionResponse'
+        '404':
+          description: Suggestions not found or expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /suggestions/{requestId}/feedback:
+    post:
+      summary: Provide feedback on suggestions
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '200':
+          description: Feedback recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackResponse'
+
+  /cooking-context/{userId}:
+    get:
+      summary: Get user's cooking context
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User's cooking context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CookingContext'
+        '404':
+          description: Cooking context not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update user's cooking context
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCookingContextRequest'
+      responses:
+        '200':
+          description: Cooking context updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CookingContext'
+
+components:
+  schemas:
+    SuggestionRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        profileId:
+          type: string
+          format: uuid
+          description: Preference profile to use
+        mode:
+          type: string
+          enum: [cook_at_home, go_out]
+        temporaryPreferences:
+          $ref: '#/components/schemas/TemporaryPreferences'
+        location:
+          $ref: '#/components/schemas/Location'
+        maxSuggestions:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 5
+      required:
+        - userId
+        - profileId
+        - mode
+
+    SuggestionResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DinnerSuggestion'
+        totalMatches:
+          type: integer
+        hasAlternatives:
+          type: boolean
+        alternatives:
+          type: array
+          items:
+            $ref: '#/components/schemas/DinnerSuggestion'
+        generatedAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+      required:
+        - requestId
+        - userId
+        - suggestions
+        - totalMatches
+        - hasAlternatives
+        - generatedAt
+        - expiresAt
+
+    DinnerSuggestion:
+      type: object
+      properties:
+        suggestionId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [recipe, restaurant, meal_type]
+        name:
+          type: string
+        description:
+          type: string
+        matchScore:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        rankOrder:
+          type: integer
+          minimum: 1
+        metadata:
+          $ref: '#/components/schemas/SuggestionMetadata'
+        matchReasons:
+          type: array
+          items:
+            type: string
+        nonMatchReasons:
+          type: array
+          items:
+            type: string
+      required:
+        - suggestionId
+        - type
+        - name
+        - matchScore
+        - rankOrder
+
+    SuggestionMetadata:
+      type: object
+      properties:
+        # Restaurant metadata
+        restaurantAddress:
+          type: string
+        restaurantPhone:
+          type: string
+        restaurantRating:
+          type: number
+        restaurantDistance:
+          type: number
+          description: Distance in kilometers
+        restaurantPriceRange:
+          type: string
+          enum: [budget, moderate, expensive, luxury]
+
+        # Recipe metadata
+        prepTime:
+          type: integer
+          description: Preparation time in minutes
+        cookTime:
+          type: integer
+          description: Cooking time in minutes
+        difficulty:
+          type: string
+          enum: [easy, medium, hard, expert]
+        servings:
+          type: integer
+        requiredEquipment:
+          type: array
+          items:
+            type: string
+        missingIngredients:
+          type: array
+          items:
+            type: string
+
+    TemporaryPreferences:
+      type: object
+      properties:
+        additionalDietaryRestrictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DietaryRestrictionInput'
+        additionalCuisinePreferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/CuisinePreferenceInput'
+        removedDietaryRestrictions:
+          type: array
+          items:
+            type: string
+            format: uuid
+        removedCuisinePreferences:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    CookingContext:
+      type: object
+      properties:
+        contextId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        skillLevel:
+          type: string
+          enum: [beginner, intermediate, advanced, expert]
+        availableTime:
+          type: integer
+          minimum: 1
+          description: Available time in minutes
+        equipment:
+          type: array
+          items:
+            type: string
+            enum: [stove, oven, microwave, air_fryer, slow_cooker, pressure_cooker, grill, toaster, blender, food_processor]
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - contextId
+        - userId
+        - skillLevel
+        - availableTime
+        - equipment
+        - ingredients
+        - updatedAt
+
+    UpdateCookingContextRequest:
+      type: object
+      properties:
+        skillLevel:
+          type: string
+          enum: [beginner, intermediate, advanced, expert]
+        availableTime:
+          type: integer
+          minimum: 1
+        equipment:
+          type: array
+          items:
+            type: string
+            enum: [stove, oven, microwave, air_fryer, slow_cooker, pressure_cooker, grill, toaster, blender, food_processor]
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+
+    Ingredient:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+          enum: [protein, vegetable, grain, dairy, spice, condiment, other]
+        expiryDate:
+          type: string
+          format: date
+          nullable: true
+      required:
+        - name
+        - category
+
+    FeedbackRequest:
+      type: object
+      properties:
+        suggestionId:
+          type: string
+          format: uuid
+        feedback:
+          type: string
+          enum: [selected, rejected, saved_for_later]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comments:
+          type: string
+          maxLength: 500
+      required:
+        - suggestionId
+        - feedback
+
+    FeedbackResponse:
+      type: object
+      properties:
+        recorded:
+          type: boolean
+        improvedPreferences:
+          type: boolean
+          description: Whether preferences were updated based on feedback
+        message:
+          type: string
+      required:
+        - recorded
+
+    Location:
+      type: object
+      properties:
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+        radius:
+          type: number
+          minimum: 0.5
+          maximum: 50
+          default: 5
+          description: Search radius in kilometers
+      required:
+        - latitude
+        - longitude
+
+    DietaryRestrictionInput:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [vegetarian, vegan, gluten_free, dairy_free, nut_allergy, shellfish_allergy, kosher, halal, custom]
+        customName:
+          type: string
+          maxLength: 30
+      required:
+        - type
+
+    CuisinePreferenceInput:
+      type: object
+      properties:
+        cuisineType:
+          type: string
+          enum: [italian, mexican, chinese, japanese, thai, indian, french, american, mediterranean, middle_eastern, korean, vietnamese, greek, spanish, german, british, african, caribbean]
+        preferenceLevel:
+          type: integer
+          minimum: 1
+          maximum: 5
+      required:
+        - cuisineType
+        - preferenceLevel
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+      required:
+        - error
+        - message
+        - code

@@ -1,0 +1,269 @@
+openapi: 3.0.3
+info:
+  title: Facial Recognition API
+  description: Local API for facial recognition and user identification
+  version: 1.0.0
+
+paths:
+  /face/register:
+    post:
+      summary: Register facial data for a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterFaceRequest'
+      responses:
+        '201':
+          description: Facial data registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaceRegistrationResponse'
+        '400':
+          description: Invalid facial data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /face/identify:
+    post:
+      summary: Identify user from facial data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentifyFaceRequest'
+      responses:
+        '200':
+          description: User identified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaceIdentificationResponse'
+        '404':
+          description: No matching face found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Invalid facial data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /face/{userId}:
+    put:
+      summary: Update facial data for existing user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFaceRequest'
+      responses:
+        '200':
+          description: Facial data updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaceRegistrationResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Remove facial data for user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Facial data removed successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /face/status:
+    get:
+      summary: Get facial recognition system status
+      responses:
+        '200':
+          description: System status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+
+components:
+  schemas:
+    RegisterFaceRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        imageData:
+          type: string
+          format: base64
+          description: Base64 encoded image data
+        confidenceThreshold:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          default: 0.85
+      required:
+        - userId
+        - imageData
+
+    UpdateFaceRequest:
+      type: object
+      properties:
+        imageData:
+          type: string
+          format: base64
+          description: Base64 encoded image data
+        confidenceThreshold:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+      required:
+        - imageData
+
+    IdentifyFaceRequest:
+      type: object
+      properties:
+        imageData:
+          type: string
+          format: base64
+          description: Base64 encoded image data
+        maxResults:
+          type: integer
+          minimum: 1
+          maximum: 5
+          default: 1
+      required:
+        - imageData
+
+    FaceRegistrationResponse:
+      type: object
+      properties:
+        faceId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        featureVersion:
+          type: string
+        confidenceThreshold:
+          type: number
+        registeredAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [success, warning, error]
+        message:
+          type: string
+      required:
+        - faceId
+        - userId
+        - featureVersion
+        - confidenceThreshold
+        - registeredAt
+        - status
+
+    FaceIdentificationResponse:
+      type: object
+      properties:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/FaceMatch'
+        processingTime:
+          type: number
+          description: Processing time in milliseconds
+        status:
+          type: string
+          enum: [success, no_match, low_confidence]
+      required:
+        - matches
+        - processingTime
+        - status
+
+    FaceMatch:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        confidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        userName:
+          type: string
+      required:
+        - userId
+        - confidence
+        - userName
+
+    SystemStatus:
+      type: object
+      properties:
+        isAvailable:
+          type: boolean
+        featureVersion:
+          type: string
+        registeredUsers:
+          type: integer
+        lastCalibration:
+          type: string
+          format: date-time
+        averageProcessingTime:
+          type: number
+          description: Average processing time in milliseconds
+        errorRate:
+          type: number
+          description: Recent error rate percentage
+      required:
+        - isAvailable
+        - featureVersion
+        - registeredUsers
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+      required:
+        - error
+        - message
+        - code
