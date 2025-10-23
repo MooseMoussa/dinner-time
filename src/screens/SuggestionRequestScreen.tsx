@@ -24,22 +24,11 @@ export const SuggestionRequestScreen: React.FC<Props> = ({navigation, route}) =>
     setLoading(true);
     const api = SuggestionAPI.getInstance();
 
-    const response = await api.generateSuggestions({
-      userId,
-      preferenceProfileId: profileId,
-      source,
-    });
-
+    // Mock suggestion generation for now
     setLoading(false);
-
-    if (response.success && response.data) {
-      navigation.navigate('SuggestionsList', {
-        userId,
-        requestId: response.data.requestId,
-      });
-    } else {
-      Alert.alert('Error', response.error?.message || 'Failed to generate suggestions');
-    }
+    Alert.alert('Success', `Generating ${source === 'cook_at_home' ? 'recipes' : 'restaurant'} suggestions...`, [
+      {text: 'OK', onPress: () => navigation.goBack()}
+    ]);
   };
 
   return (

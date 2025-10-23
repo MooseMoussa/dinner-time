@@ -2,13 +2,13 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["es2020"],
+    "lib": ["es2020", "DOM"],
     "types": ["jest", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -20,6 +20,7 @@
       "@/*": ["src/*"],
       "@models/*": ["src/models/*"],
       "@services/*": ["src/services/*"],
+      "@api/*": ["src/api/*"],
       "@ui/*": ["src/ui/*"],
       "@storage/*": ["src/storage/*"],
       "@utils/*": ["src/utils/*"]

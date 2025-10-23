@@ -20,15 +20,27 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
   }, [userId]);
 
   const loadUserData = async () => {
-    const api = UserProfileAPI.getInstance();
-    const userResponse = await api.getUser(userId);
-    const profilesResponse = await api.getPreferenceProfiles(userId);
+    try {
+      const api = UserProfileAPI.getInstance();
+      const usersResponse = await api.getUsers();
 
-    if (userResponse.success && userResponse.data) {
-      setUser(userResponse.data);
-    }
-    if (profilesResponse.success && profilesResponse.data) {
-      setProfiles(profilesResponse.data);
+      if (usersResponse.success && usersResponse.data) {
+        const currentUser = usersResponse.data.find(u => u.userId === userId);
+        if (currentUser) {
+          setUser(currentUser);
+          // Mock profiles for now
+          setProfiles([{
+            profileId: 'default',
+            userId: userId,
+            name: 'Default Profile',
+            isDefault: true,
+            cuisinePreferences: [],
+            dietaryRestrictions: []
+          }]);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load user data', error);
     }
   };
 

@@ -26,14 +26,18 @@ export const UserSelectionScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const createNewUser = async () => {
-    const api = UserProfileAPI.getInstance();
-    const response = await api.createUser({
-      name: `User ${users.length + 1}`,
-    });
+    try {
+      const api = UserProfileAPI.getInstance();
+      const response = await api.createUser({
+        name: `User ${users.length + 1}`,
+      });
 
-    if (response.success && response.data) {
-      navigation.navigate('ProfileSetup', {userId: response.data.userId});
-    } else {
+      if (response.success && response.data) {
+        navigation.navigate('Home', {userId: response.data.userId});
+      } else {
+        Alert.alert('Error', 'Failed to create user');
+      }
+    } catch (error) {
       Alert.alert('Error', 'Failed to create user');
     }
   };
