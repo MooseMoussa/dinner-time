@@ -18,8 +18,7 @@ function App(): JSX.Element {
           headerStyle: {backgroundColor: '#6366F1'},
           headerTintColor: '#fff',
           headerTitleStyle: {fontWeight: 'bold'},
-        }}
-      >
+        }}>
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}

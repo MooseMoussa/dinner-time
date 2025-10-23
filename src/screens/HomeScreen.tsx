@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
@@ -29,14 +35,16 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
         if (currentUser) {
           setUser(currentUser);
           // Mock profiles for now
-          setProfiles([{
-            profileId: 'default',
-            userId: userId,
-            name: 'Default Profile',
-            isDefault: true,
-            cuisinePreferences: [],
-            dietaryRestrictions: []
-          }]);
+          setProfiles([
+            {
+              profileId: 'default',
+              userId: userId,
+              name: 'Default Profile',
+              isDefault: true,
+              cuisinePreferences: [],
+              dietaryRestrictions: [],
+            },
+          ]);
         }
       }
     } catch (error) {
@@ -67,7 +75,9 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
       <View style={styles.quickActions}>
         <TouchableOpacity
           style={[styles.actionCard, styles.primaryAction]}
-          onPress={() => defaultProfile && requestSuggestions(defaultProfile.profileId)}>
+          onPress={() =>
+            defaultProfile && requestSuggestions(defaultProfile.profileId)
+          }>
           <Text style={styles.actionEmoji}>🍳</Text>
           <Text style={styles.actionTitle}>Cook at Home</Text>
           <Text style={styles.actionSubtitle}>Get recipe suggestions</Text>
@@ -75,7 +85,9 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
 
         <TouchableOpacity
           style={[styles.actionCard, styles.secondaryAction]}
-          onPress={() => defaultProfile && requestSuggestions(defaultProfile.profileId)}>
+          onPress={() =>
+            defaultProfile && requestSuggestions(defaultProfile.profileId)
+          }>
           <Text style={styles.actionEmoji}>🍴</Text>
           <Text style={styles.actionTitle}>Go Out</Text>
           <Text style={styles.actionSubtitle}>Find restaurants</Text>
@@ -88,11 +100,17 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
           <TouchableOpacity
             key={profile.profileId}
             style={styles.profileCard}
-            onPress={() => navigation.navigate('Preferences', {userId, profileId: profile.profileId})}>
+            onPress={() =>
+              navigation.navigate('Preferences', {
+                userId,
+                profileId: profile.profileId,
+              })
+            }>
             <View>
               <Text style={styles.profileName}>{profile.name}</Text>
               <Text style={styles.profileMeta}>
-                {profile.cuisinePreferences?.length || 0} cuisines • {profile.dietaryRestrictions?.length || 0} restrictions
+                {profile.cuisinePreferences?.length || 0} cuisines •{' '}
+                {profile.dietaryRestrictions?.length || 0} restrictions
               </Text>
             </View>
             {profile.isDefault && (

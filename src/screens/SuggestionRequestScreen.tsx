@@ -1,16 +1,29 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
 import {SuggestionAPI} from '@api/SuggestionAPI';
 
 type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'SuggestionRequest'>;
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'SuggestionRequest'
+  >;
   route: RouteProp<RootStackParamList, 'SuggestionRequest'>;
 };
 
-export const SuggestionRequestScreen: React.FC<Props> = ({navigation, route}) => {
+export const SuggestionRequestScreen: React.FC<Props> = ({
+  navigation,
+  route,
+}) => {
   const {userId, profileId} = route.params;
   const [source, setSource] = useState<'cook_at_home' | 'go_out' | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,15 +39,21 @@ export const SuggestionRequestScreen: React.FC<Props> = ({navigation, route}) =>
 
     // Mock suggestion generation for now
     setLoading(false);
-    Alert.alert('Success', `Generating ${source === 'cook_at_home' ? 'recipes' : 'restaurant'} suggestions...`, [
-      {text: 'OK', onPress: () => navigation.goBack()}
-    ]);
+    Alert.alert(
+      'Success',
+      `Generating ${
+        source === 'cook_at_home' ? 'recipes' : 'restaurant'
+      } suggestions...`,
+      [{text: 'OK', onPress: () => navigation.goBack()}],
+    );
   };
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>What's your plan?</Text>
-      <Text style={styles.subtitle}>Choose how you want to enjoy your meal</Text>
+      <Text style={styles.subtitle}>
+        Choose how you want to enjoy your meal
+      </Text>
 
       <View style={styles.optionsContainer}>
         <TouchableOpacity
@@ -46,7 +65,8 @@ export const SuggestionRequestScreen: React.FC<Props> = ({navigation, route}) =>
           <Text style={styles.optionEmoji}>🍳</Text>
           <Text style={styles.optionTitle}>Cook at Home</Text>
           <Text style={styles.optionDescription}>
-            Get personalized recipes based on your preferences and available ingredients
+            Get personalized recipes based on your preferences and available
+            ingredients
           </Text>
         </TouchableOpacity>
 

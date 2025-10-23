@@ -97,10 +97,10 @@ export class FacialRecognitionDataModel {
     this.data.updatedAt = new Date().toISOString();
   }
 
-  updateMetadata(
-    metadata: Partial<FacialRecognitionData['metadata']>,
-  ): void {
-    const currentMetadata = this.data.metadata || { captureDate: new Date().toISOString() };
+  updateMetadata(metadata: Partial<FacialRecognitionData['metadata']>): void {
+    const currentMetadata = this.data.metadata || {
+      captureDate: new Date().toISOString(),
+    };
     this.data.metadata = {
       ...currentMetadata,
       ...metadata,

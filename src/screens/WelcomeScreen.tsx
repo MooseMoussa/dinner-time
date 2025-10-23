@@ -12,9 +12,7 @@ export const WelcomeScreen: React.FC<Props> = ({navigation}) => {
     <View style={styles.container}>
       <Text style={styles.emoji}>🍽️</Text>
       <Text style={styles.title}>Dinner Time</Text>
-      <Text style={styles.subtitle}>
-        Smart dinner decisions for everyone
-      </Text>
+      <Text style={styles.subtitle}>Smart dinner decisions for everyone</Text>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity

@@ -1,4 +1,8 @@
-export type CookingSkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+export type CookingSkillLevel =
+  | 'beginner'
+  | 'intermediate'
+  | 'advanced'
+  | 'expert';
 
 export type CookingEquipment =
   | 'stove'

@@ -120,9 +120,7 @@ export class DinnerSuggestionModel {
     }
 
     if (this.suggestion.matchScore < 0 || this.suggestion.matchScore > 1) {
-      throw new Error(
-        'DinnerSuggestion: matchScore must be between 0 and 1',
-      );
+      throw new Error('DinnerSuggestion: matchScore must be between 0 and 1');
     }
 
     // Validate details based on type

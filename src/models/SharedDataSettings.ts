@@ -59,17 +59,12 @@ export class SharedDataSettingsModel {
 
     for (const dataType of this.settings.sharedDataTypes) {
       if (!validDataTypes.includes(dataType)) {
-        throw new Error(
-          `SharedDataSettings: Invalid data type "${dataType}"`,
-        );
+        throw new Error(`SharedDataSettings: Invalid data type "${dataType}"`);
       }
     }
 
     // Cannot share with specific users AND all users
-    if (
-      this.settings.shareWithAll &&
-      this.settings.shareWithUsers.length > 0
-    ) {
+    if (this.settings.shareWithAll && this.settings.shareWithUsers.length > 0) {
       throw new Error(
         'SharedDataSettings: Cannot specify shareWithUsers when shareWithAll is true',
       );
@@ -104,9 +99,7 @@ export class SharedDataSettingsModel {
 
   addUserToShare(userId: string): void {
     if (this.settings.shareWithAll) {
-      throw new Error(
-        'Cannot add specific users when shareWithAll is enabled',
-      );
+      throw new Error('Cannot add specific users when shareWithAll is enabled');
     }
 
     if (!this.settings.shareWithUsers.includes(userId)) {
