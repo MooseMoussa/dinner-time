@@ -20,8 +20,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
         test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!(@react-navigation|react-native-reanimated|react-native-gesture-handler|react-native-web))/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -50,7 +56,7 @@ module.exports = {
     extensions: ['.web.tsx', '.web.ts', '.web.js', '.tsx', '.ts', '.js', '.json'],
     alias: {
       'react-native$': 'react-native-web',
-      'react-native-sqlite-storage': path.resolve(__dirname, 'src/services/web/SQLiteWeb.ts'),
+      'react-native-sqlite-storage': path.resolve(__dirname, 'src/services/DatabaseService.web.ts'),
       'react-native-geolocation-service': path.resolve(__dirname, 'src/services/web/GeolocationWeb.ts'),
       'react-native-face-detector': path.resolve(__dirname, 'src/services/web/FaceDetectorWeb.ts'),
       '@models': path.resolve(__dirname, 'src/models'),

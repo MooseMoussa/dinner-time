@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './navigation/types';
 import {WelcomeScreen} from './screens/WelcomeScreen';
 import {UserSelectionScreen} from './screens/UserSelectionScreen';
@@ -15,7 +15,7 @@ import {SuggestionsListScreen} from './screens/SuggestionsListScreen';
 import {SuggestionDetailScreen} from './screens/SuggestionDetailScreen';
 import {SettingsScreen} from './screens/SettingsScreen';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -64,9 +64,8 @@ function App(): JSX.Element {
         screenOptions={{
           headerStyle: {backgroundColor: '#6366F1'},
           headerTintColor: '#fff',
-          headerTitleStyle: {fontWeight: 'bold'},
-        }}
-        id={undefined}>
+          headerTitleStyle: {fontWeight: 'bold' as any},
+        }}>
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
