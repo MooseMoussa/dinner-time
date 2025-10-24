@@ -59,6 +59,8 @@ module.exports = {
       'react-native-sqlite-storage': path.resolve(__dirname, 'src/services/DatabaseService.web.ts'),
       'react-native-geolocation-service': path.resolve(__dirname, 'src/services/web/GeolocationWeb.ts'),
       'react-native-face-detector': path.resolve(__dirname, 'src/services/web/FaceDetectorWeb.ts'),
+      './src/App$': path.resolve(__dirname, 'src/App.web.tsx'),
+      '@services/DatabaseService$': path.resolve(__dirname, 'src/services/DatabaseService.web.ts'),
       '@models': path.resolve(__dirname, 'src/models'),
       '@services': path.resolve(__dirname, 'src/services'),
       '@api': path.resolve(__dirname, 'src/api'),

@@ -22,14 +22,18 @@ function App(): JSX.Element {
   const [initError, setInitError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('App.web.tsx: useEffect running');
     initializeApp();
   }, []);
 
   const initializeApp = async () => {
     try {
+      console.log('Web app initializing...');
       // Skip database initialization for web - use localStorage/mock data instead
+      await new Promise(resolve => setTimeout(resolve, 10)); // Small delay to ensure state updates
       console.log('Web app initialized (without SQLite)');
       setIsInitializing(false);
+      console.log('isInitializing set to false');
     } catch (error) {
       console.error('Failed to initialize app:', error);
       setInitError(error instanceof Error ? error.message : 'Unknown error');
