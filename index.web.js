@@ -1,5 +1,5 @@
 import {AppRegistry} from 'react-native';
-import App from './src/App';
+import App from './src/App.web';
 
 // Register the app for web
 AppRegistry.registerComponent('DinnerTime', () => App);
