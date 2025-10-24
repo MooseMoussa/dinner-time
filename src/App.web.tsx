@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {UserProfileAPI} from '@api/UserProfileAPI';
 
 function App(): JSX.Element {
@@ -54,8 +60,7 @@ function App(): JSX.Element {
             <Text style={styles.actionSubtitle}>Get recipe suggestions</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.actionCard, styles.secondaryAction]}>
+          <TouchableOpacity style={[styles.actionCard, styles.secondaryAction]}>
             <Text style={styles.actionEmoji}>🍴</Text>
             <Text style={styles.actionTitle}>Go Out</Text>
             <Text style={styles.actionSubtitle}>Find restaurants</Text>

@@ -2,7 +2,8 @@ export type RootStackParamList = {
   Welcome: undefined;
   UserSelection: undefined;
   FaceLogin: undefined;
-  ProfileSetup: {userId: string};
+  ProfileSetup: undefined;
+  FaceRegistration: {userId: string};
   Home: {userId: string};
   Preferences: {userId: string; profileId?: string};
   SuggestionRequest: {userId: string; profileId: string};

@@ -47,7 +47,7 @@ class SQLiteWeb {
 
   private createDatabase(): SQLiteDatabase {
     return {
-      executeSql: (sql, params, successCallback, errorCallback) => {
+      executeSql: (sql, params, successCallback, _errorCallback) => {
         // Simple mock - in production, parse SQL and execute on IndexedDB
         console.log('Web SQLite:', sql, params);
         if (successCallback) {

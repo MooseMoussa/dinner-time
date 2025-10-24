@@ -20,8 +20,8 @@ export interface Face {
 
 class FaceDetectorWeb {
   async detectFaces(
-    imageUri: string,
-    options?: FaceDetectorOptions,
+    _imageUri: string,
+    _options?: FaceDetectorOptions,
   ): Promise<Face[]> {
     // Placeholder for web face detection
     // In production, could use:
