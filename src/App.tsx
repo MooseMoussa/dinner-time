@@ -3,6 +3,7 @@ import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './navigation/types';
+import {AuthScreen} from './screens/AuthScreen';
 import {WelcomeScreen} from './screens/WelcomeScreen';
 import {UserSelectionScreen} from './screens/UserSelectionScreen';
 import {FaceLoginScreen} from './screens/FaceLoginScreen';
@@ -61,13 +62,18 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Welcome"
+        initialRouteName="Auth"
         screenOptions={{
           headerStyle: {backgroundColor: '#6366F1'},
           headerTintColor: '#fff',
           headerTitleStyle: {fontWeight: 'bold'},
         }}
         id={undefined}>
+        <Stack.Screen
+          name="Auth"
+          component={AuthScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}

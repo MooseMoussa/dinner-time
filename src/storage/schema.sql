@@ -15,6 +15,22 @@ CREATE TABLE IF NOT EXISTS user_profiles (
     location_updated DATETIME
 );
 
+-- Authentication table
+CREATE TABLE IF NOT EXISTS authentication (
+    auth_id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL UNIQUE,
+    email TEXT UNIQUE,
+    phone_number TEXT UNIQUE,
+    password_hash TEXT NOT NULL,
+    save_credentials BOOLEAN NOT NULL DEFAULT 0,
+    last_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_profiles(user_id) ON DELETE CASCADE,
+    CHECK (email IS NOT NULL OR phone_number IS NOT NULL)
+);
+
 -- Preference Profile table
 CREATE TABLE IF NOT EXISTS preference_profiles (
     profile_id TEXT PRIMARY KEY,
@@ -122,6 +138,9 @@ CREATE TABLE IF NOT EXISTS dinner_suggestions (
 -- Indexes for performance optimization
 CREATE INDEX IF NOT EXISTS idx_user_profiles_name ON user_profiles(name);
 CREATE INDEX IF NOT EXISTS idx_user_profiles_last_used ON user_profiles(last_used);
+CREATE INDEX IF NOT EXISTS idx_authentication_email ON authentication(email);
+CREATE INDEX IF NOT EXISTS idx_authentication_phone ON authentication(phone_number);
+CREATE INDEX IF NOT EXISTS idx_authentication_user_id ON authentication(user_id);
 CREATE INDEX IF NOT EXISTS idx_preference_profiles_user_id ON preference_profiles(user_id);
 CREATE INDEX IF NOT EXISTS idx_preference_profiles_default ON preference_profiles(user_id, is_default);
 CREATE INDEX IF NOT EXISTS idx_dietary_restrictions_profile_id ON dietary_restrictions(profile_id);

@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  Auth: undefined;
   Welcome: undefined;
   UserSelection: undefined;
   FaceLogin: undefined;
