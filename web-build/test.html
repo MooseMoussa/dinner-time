@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Test</title>
+</head>
+<body>
+    <div id="root">ORIGINAL CONTENT</div>
+    <script>
+        console.log('Script loading...');
+        console.log('Root element:', document.getElementById('root'));
+    </script>
+    <script src="/bundle.88ad9e11883e222087ff.js"></script>
+    <script>
+        setTimeout(() => {
+            console.log('After bundle load - Root content:', document.getElementById('root').innerHTML.substring(0, 100));
+        }, 2000);
+    </script>
+</body>
+</html>
