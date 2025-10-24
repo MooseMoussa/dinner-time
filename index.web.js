@@ -1,10 +1,12 @@
-import {AppRegistry} from 'react-native';
+import React from 'react';
+import {createRoot} from 'react-dom/client';
 import App from './src/App.web';
 
-// Register the app for web
-AppRegistry.registerComponent('DinnerTime', () => App);
-
-// Run the app in the browser
-AppRegistry.runApplication('DinnerTime', {
-  rootTag: document.getElementById('root'),
-});
+// Mount the app
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<App />);
+} else {
+  console.error('Root element not found');
+}
