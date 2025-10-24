@@ -32,14 +32,13 @@ export const FaceRegistrationScreen: React.FC<Props> = ({
       // In production, this would use device camera
       const faceAPI = FacialRecognitionAPI.getInstance();
 
-      // Mock face descriptor (in production, captured from camera)
-      const mockFaceDescriptor = Buffer.from(
-        `face-descriptor-${userId}-${Date.now()}`,
-      );
+      // Mock face data (in production, captured from camera)
+      const mockImageData = `data:image/jpeg;base64,mockdata${userId}-${Date.now()}`;
 
-      const response = await faceAPI.registerFace(userId, mockFaceDescriptor, {
-        imageQuality: 0.9,
-        lightingConditions: 'good' as const,
+      const response = await faceAPI.registerFace({
+        userId,
+        imageData: mockImageData,
+        confidenceThreshold: 0.9,
       });
 
       if (response.success) {

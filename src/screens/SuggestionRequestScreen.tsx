@@ -35,17 +35,32 @@ export const SuggestionRequestScreen: React.FC<Props> = ({
     }
 
     setLoading(true);
-    const api = SuggestionAPI.getInstance();
+    try {
+      const api = SuggestionAPI.getInstance();
 
-    // Mock suggestion generation for now
-    setLoading(false);
-    Alert.alert(
-      'Success',
-      `Generating ${
-        source === 'cook_at_home' ? 'recipes' : 'restaurant'
-      } suggestions...`,
-      [{text: 'OK', onPress: () => navigation.goBack()}],
-    );
+      // Generate suggestions
+      const response = await api.generateSuggestions({
+        userId,
+        preferenceProfileId: profileId,
+        suggestionType: source === 'cook_at_home' ? 'cooking' : 'restaurant',
+        maxResults: 10,
+      });
+
+      if (response.success && response.data) {
+        // Navigate to suggestions list with mock requestId
+        const requestId = `req-${Date.now()}`;
+        navigation.navigate('SuggestionsList', {
+          userId,
+          requestId,
+        });
+      } else {
+        Alert.alert('Error', response.error?.message || 'Failed to generate suggestions');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to generate suggestions');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

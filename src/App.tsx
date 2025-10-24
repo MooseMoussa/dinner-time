@@ -5,10 +5,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './navigation/types';
 import {WelcomeScreen} from './screens/WelcomeScreen';
 import {UserSelectionScreen} from './screens/UserSelectionScreen';
+import {FaceLoginScreen} from './screens/FaceLoginScreen';
 import {ProfileSetupScreen} from './screens/ProfileSetupScreen';
 import {FaceRegistrationScreen} from './screens/FaceRegistrationScreen';
 import {HomeScreen} from './screens/HomeScreen';
+import {PreferencesScreen} from './screens/PreferencesScreen';
 import {SuggestionRequestScreen} from './screens/SuggestionRequestScreen';
+import {SuggestionsListScreen} from './screens/SuggestionsListScreen';
+import {SuggestionDetailScreen} from './screens/SuggestionDetailScreen';
+import {SettingsScreen} from './screens/SettingsScreen';
 import {DatabaseService} from '@services/DatabaseService';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -61,7 +66,8 @@ function App(): JSX.Element {
           headerStyle: {backgroundColor: '#6366F1'},
           headerTintColor: '#fff',
           headerTitleStyle: {fontWeight: 'bold'},
-        }}>
+        }}
+        id={undefined}>
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
@@ -71,6 +77,11 @@ function App(): JSX.Element {
           name="UserSelection"
           component={UserSelectionScreen}
           options={{title: 'Select Profile'}}
+        />
+        <Stack.Screen
+          name="FaceLogin"
+          component={FaceLoginScreen}
+          options={{title: 'Face Login'}}
         />
         <Stack.Screen
           name="ProfileSetup"
@@ -88,9 +99,29 @@ function App(): JSX.Element {
           options={{title: 'Home', headerShown: false}}
         />
         <Stack.Screen
+          name="Preferences"
+          component={PreferencesScreen}
+          options={{title: 'Preferences'}}
+        />
+        <Stack.Screen
           name="SuggestionRequest"
           component={SuggestionRequestScreen}
           options={{title: 'Request Suggestions'}}
+        />
+        <Stack.Screen
+          name="SuggestionsList"
+          component={SuggestionsListScreen}
+          options={{title: 'Suggestions'}}
+        />
+        <Stack.Screen
+          name="SuggestionDetail"
+          component={SuggestionDetailScreen}
+          options={{title: 'Details'}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{title: 'Settings'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
