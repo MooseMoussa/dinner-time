@@ -16,11 +16,9 @@ type Props = {
 };
 
 export const FaceLoginScreen: React.FC<Props> = ({navigation}) => {
-  const [isScanning, setIsScanning] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleFaceScan = async () => {
-    setIsScanning(true);
+  const handleFaceScan = React.useCallback(async () => {
     setIsProcessing(true);
 
     try {
@@ -36,7 +34,12 @@ export const FaceLoginScreen: React.FC<Props> = ({navigation}) => {
         maxResults: 1,
       });
 
-      if (response.success && response.data && response.data.matches && response.data.matches.length > 0) {
+      if (
+        response.success &&
+        response.data &&
+        response.data.matches &&
+        response.data.matches.length > 0
+      ) {
         // Face recognized, navigate to home
         const userId = response.data.matches[0].userId;
         navigation.replace('Home', {userId});
@@ -48,7 +51,6 @@ export const FaceLoginScreen: React.FC<Props> = ({navigation}) => {
             {
               text: 'Try Again',
               onPress: () => {
-                setIsScanning(false);
                 setIsProcessing(false);
               },
             },
@@ -61,10 +63,9 @@ export const FaceLoginScreen: React.FC<Props> = ({navigation}) => {
       }
     } catch (error) {
       Alert.alert('Error', 'Failed to scan face. Please try again.');
-      setIsScanning(false);
       setIsProcessing(false);
     }
-  };
+  }, [navigation]);
 
   useEffect(() => {
     // Auto-start scanning when screen loads
@@ -73,7 +74,7 @@ export const FaceLoginScreen: React.FC<Props> = ({navigation}) => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [handleFaceScan]);
 
   return (
     <View style={styles.container}>

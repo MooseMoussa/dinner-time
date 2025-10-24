@@ -24,11 +24,7 @@ export const SettingsScreen: React.FC<Props> = ({navigation, route}) => {
   const [notifications, setNotifications] = useState(true);
   const [locationServices, setLocationServices] = useState(true);
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  const loadUser = async () => {
+  const loadUser = React.useCallback(async () => {
     const api = UserProfileAPI.getInstance();
     const response = await api.getUserById(userId);
 
@@ -36,7 +32,11 @@ export const SettingsScreen: React.FC<Props> = ({navigation, route}) => {
       setUser(response.data);
       setLocationServices(!!response.data.location);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
 
   const handleDeleteAccount = () => {
     Alert.alert(
@@ -111,9 +111,7 @@ export const SettingsScreen: React.FC<Props> = ({navigation, route}) => {
 
         <TouchableOpacity
           style={styles.settingCard}
-          onPress={() =>
-            navigation.navigate('FaceRegistration', {userId})
-          }>
+          onPress={() => navigation.navigate('FaceRegistration', {userId})}>
           <View style={styles.settingRow}>
             <Text style={styles.settingLabel}>Face ID Settings</Text>
             <Text style={styles.chevron}>›</Text>
@@ -185,9 +183,7 @@ export const SettingsScreen: React.FC<Props> = ({navigation, route}) => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Danger Zone</Text>
 
-        <TouchableOpacity
-          style={styles.dangerButton}
-          onPress={handleClearData}>
+        <TouchableOpacity style={styles.dangerButton} onPress={handleClearData}>
           <Text style={styles.dangerButtonText}>Clear All Data</Text>
         </TouchableOpacity>
 
@@ -199,9 +195,7 @@ export const SettingsScreen: React.FC<Props> = ({navigation, route}) => {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          Made with ❤️ and 🍕
-        </Text>
+        <Text style={styles.footerText}>Made with ❤️ and 🍕</Text>
       </View>
     </ScrollView>
   );

@@ -13,14 +13,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
 import {UserProfileAPI} from '@api/UserProfileAPI';
-import {FacialRecognitionAPI} from '@api/FacialRecognitionAPI';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileSetup'>;
   route: RouteProp<RootStackParamList, 'ProfileSetup'>;
 };
 
-export const ProfileSetupScreen: React.FC<Props> = ({navigation, route}) => {
+export const ProfileSetupScreen: React.FC<Props> = ({navigation}) => {
   const [name, setName] = useState('');
   const [enableFaceID, setEnableFaceID] = useState(false);
   const [isCreating, setIsCreating] = useState(false);

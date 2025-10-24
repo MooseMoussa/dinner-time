@@ -10,18 +10,13 @@ import {
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
-import {SuggestionAPI} from '@api/SuggestionAPI';
 
 type Props = {
-  navigation: NativeStackNavigationProp<
-    RootStackParamList,
-    'SuggestionsList'
-  >;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'SuggestionsList'>;
   route: RouteProp<RootStackParamList, 'SuggestionsList'>;
 };
 
-export const SuggestionsListScreen: React.FC<Props> = ({navigation, route}) => {
-  const {userId, requestId} = route.params;
+export const SuggestionsListScreen: React.FC<Props> = ({navigation}) => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -89,7 +84,9 @@ export const SuggestionsListScreen: React.FC<Props> = ({navigation, route}) => {
     <TouchableOpacity
       style={styles.suggestionCard}
       onPress={() =>
-        navigation.navigate('SuggestionDetail', {suggestionId: item.suggestionId})
+        navigation.navigate('SuggestionDetail', {
+          suggestionId: item.suggestionId,
+        })
       }>
       <View style={styles.suggestionHeader}>
         <Text style={styles.suggestionEmoji}>{getTypeEmoji(item.type)}</Text>
@@ -100,8 +97,7 @@ export const SuggestionsListScreen: React.FC<Props> = ({navigation, route}) => {
               styles.typeBadge,
               {backgroundColor: getTypeColor(item.type) + '20'},
             ]}>
-            <Text
-              style={[styles.typeText, {color: getTypeColor(item.type)}]}>
+            <Text style={[styles.typeText, {color: getTypeColor(item.type)}]}>
               {item.type.toUpperCase()}
             </Text>
           </View>

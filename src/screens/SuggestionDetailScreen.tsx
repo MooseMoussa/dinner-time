@@ -6,18 +6,13 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Linking,
 } from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
-import {SuggestionAPI} from '@api/SuggestionAPI';
 
 type Props = {
-  navigation: NativeStackNavigationProp<
-    RootStackParamList,
-    'SuggestionDetail'
-  >;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'SuggestionDetail'>;
   route: RouteProp<RootStackParamList, 'SuggestionDetail'>;
 };
 
@@ -29,11 +24,7 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
   const [suggestion, setSuggestion] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadSuggestion();
-  }, []);
-
-  const loadSuggestion = async () => {
+  const loadSuggestion = React.useCallback(async () => {
     try {
       // Mock suggestion details
       const mockSuggestions: Record<string, any> = {
@@ -41,9 +32,14 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
           suggestionId: '1',
           type: 'restaurant',
           name: 'Italian Bistro',
-          description: 'Authentic Italian cuisine with fresh pasta and wood-fired pizzas',
+          description:
+            'Authentic Italian cuisine with fresh pasta and wood-fired pizzas',
           matchScore: 0.92,
-          matchReasons: ['Matches Italian cuisine preference', 'Within 2 miles', 'High ratings'],
+          matchReasons: [
+            'Matches Italian cuisine preference',
+            'Within 2 miles',
+            'High ratings',
+          ],
           restaurantDetails: {
             address: '123 Main St, City, State',
             distance: 1.5,
@@ -57,13 +53,26 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
           name: 'Homemade Pizza',
           description: 'Classic margherita pizza from scratch',
           matchScore: 0.88,
-          matchReasons: ['Easy recipe', 'Matches preferences', 'Quick preparation'],
+          matchReasons: [
+            'Easy recipe',
+            'Matches preferences',
+            'Quick preparation',
+          ],
           recipeDetails: {
             prepTime: 30,
             difficulty: 'Intermediate',
             servings: 4,
-            ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil'],
-            steps: ['Prepare dough', 'Add sauce and toppings', 'Bake at 450°F for 15 minutes'],
+            ingredients: [
+              'Pizza dough',
+              'Tomato sauce',
+              'Mozzarella',
+              'Fresh basil',
+            ],
+            steps: [
+              'Prepare dough',
+              'Add sauce and toppings',
+              'Bake at 450°F for 15 minutes',
+            ],
           },
         },
         '3': {
@@ -72,7 +81,11 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
           name: 'Sushi Palace',
           description: 'Fresh sushi and Japanese specialties',
           matchScore: 0.85,
-          matchReasons: ['Matches Japanese cuisine preference', 'Fresh ingredients', 'Highly rated'],
+          matchReasons: [
+            'Matches Japanese cuisine preference',
+            'Fresh ingredients',
+            'Highly rated',
+          ],
           restaurantDetails: {
             address: '456 Oak Ave, City, State',
             distance: 2.3,
@@ -87,11 +100,11 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [suggestionId]);
 
-  const openLocation = (url: string) => {
-    Linking.openURL(url);
-  };
+  useEffect(() => {
+    loadSuggestion();
+  }, [loadSuggestion]);
 
   if (loading) {
     return (
@@ -116,17 +129,13 @@ export const SuggestionDetailScreen: React.FC<Props> = ({
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.emoji}>
-          {isRestaurant ? '🍽️' : '🍳'}
-        </Text>
+        <Text style={styles.emoji}>{isRestaurant ? '🍽️' : '🍳'}</Text>
         <Text style={styles.title}>{suggestion.name}</Text>
         <View
           style={[
             styles.typeBadge,
             {
-              backgroundColor: isRestaurant
-                ? '#EF444420'
-                : '#10B98120',
+              backgroundColor: isRestaurant ? '#EF444420' : '#10B98120',
             },
           ]}>
           <Text

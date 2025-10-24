@@ -21,11 +21,7 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
   const [user, setUser] = useState<any>(null);
   const [profiles, setProfiles] = useState<any[]>([]);
 
-  useEffect(() => {
-    loadUserData();
-  }, [userId]);
-
-  const loadUserData = async () => {
+  const loadUserData = React.useCallback(async () => {
     try {
       const api = UserProfileAPI.getInstance();
       const usersResponse = await api.getUsers();
@@ -50,7 +46,11 @@ export const HomeScreen: React.FC<Props> = ({navigation, route}) => {
     } catch (error) {
       console.error('Failed to load user data', error);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    loadUserData();
+  }, [loadUserData]);
 
   const requestSuggestions = (profileId: string) => {
     navigation.navigate('SuggestionRequest', {userId, profileId});

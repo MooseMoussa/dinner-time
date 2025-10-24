@@ -54,7 +54,10 @@ export const SuggestionRequestScreen: React.FC<Props> = ({
           requestId,
         });
       } else {
-        Alert.alert('Error', response.error?.message || 'Failed to generate suggestions');
+        Alert.alert(
+          'Error',
+          response.error?.message || 'Failed to generate suggestions',
+        );
       }
     } catch (error) {
       Alert.alert('Error', 'Failed to generate suggestions');

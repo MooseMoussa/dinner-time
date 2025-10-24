@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -40,7 +40,7 @@ const CUISINE_OPTIONS = [
 ];
 
 export const PreferencesScreen: React.FC<Props> = ({navigation, route}) => {
-  const {userId, profileId} = route.params;
+  const {userId} = route.params;
   const [profileName, setProfileName] = useState('My Preferences');
   const [selectedDietary, setSelectedDietary] = useState<Set<string>>(
     new Set(),
@@ -115,7 +115,10 @@ export const PreferencesScreen: React.FC<Props> = ({navigation, route}) => {
           },
         ]);
       } else {
-        Alert.alert('Error', response.error?.message || 'Failed to save preferences');
+        Alert.alert(
+          'Error',
+          response.error?.message || 'Failed to save preferences',
+        );
         setIsSaving(false);
       }
     } catch (error) {
@@ -137,9 +140,7 @@ export const PreferencesScreen: React.FC<Props> = ({navigation, route}) => {
         />
 
         <Text style={styles.sectionTitle}>Dietary Restrictions</Text>
-        <Text style={styles.sectionSubtitle}>
-          Select all that apply to you
-        </Text>
+        <Text style={styles.sectionSubtitle}>Select all that apply to you</Text>
         <View style={styles.optionsGrid}>
           {DIETARY_OPTIONS.map(option => (
             <TouchableOpacity
